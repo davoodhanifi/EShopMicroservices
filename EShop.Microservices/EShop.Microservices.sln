@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShop.Microservices.AppHost
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShop.Microservices.ServiceDefaults", "EShop.Microservices.ServiceDefaults\EShop.Microservices.ServiceDefaults.csproj", "{FB8B046F-7FB1-4EC7-B279-8D916BC64331}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{DEA08B83-D874-49D4-BD73-349560D87CCC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks", "src\BuildingBlocks\BuildingBlocks\BuildingBlocks.csproj", "{E71798B1-96F0-4B92-AF77-A5D23B3D152F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +35,10 @@ Global
 		{FB8B046F-7FB1-4EC7-B279-8D916BC64331}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB8B046F-7FB1-4EC7-B279-8D916BC64331}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB8B046F-7FB1-4EC7-B279-8D916BC64331}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E71798B1-96F0-4B92-AF77-A5D23B3D152F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E71798B1-96F0-4B92-AF77-A5D23B3D152F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E71798B1-96F0-4B92-AF77-A5D23B3D152F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E71798B1-96F0-4B92-AF77-A5D23B3D152F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -38,6 +46,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{7EB22991-4C87-4F48-B1AA-0525BB600088} = {58AAD6BD-9551-4694-A27D-5EC221FC04FB}
 		{808CC271-3A01-4FC6-81AA-D0CC15672DDD} = {7EB22991-4C87-4F48-B1AA-0525BB600088}
+		{E71798B1-96F0-4B92-AF77-A5D23B3D152F} = {DEA08B83-D874-49D4-BD73-349560D87CCC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4AAE7E7A-C366-40AE-A004-F8DAFA903BD6}
