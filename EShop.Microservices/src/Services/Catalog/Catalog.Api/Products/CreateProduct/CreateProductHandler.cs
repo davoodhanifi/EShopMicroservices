@@ -1,7 +1,5 @@
 ﻿using BuildingBlocks.CQRS;
 using Catalog.Api.Models;
-using MediatR;
-using System.Windows.Input;
 
 namespace Catalog.Api.Products.CreateProduct;
 

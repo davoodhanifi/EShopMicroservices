@@ -10,9 +10,9 @@ public class CreateProductEndpoint : ICarterModule
     {
         app.MapPost("/products", async (CreateProductRequest request, ISender mediator) =>
         {
-            var command = new CreateProductCommand(request.Name, request.Categories, request.Description, request.ImageFile, request.Price);
+            var command = request.Adapt<CreateProductCommand>();
             var result = await mediator.Send(command);
-            var response = new CreateProductResponse(result.Id);
+            var response = result.Adapt<CreateProductResponse>();
             return Results.Created($"/products/{response.Id}", response);
         })
         .WithName("CreateProduct")
