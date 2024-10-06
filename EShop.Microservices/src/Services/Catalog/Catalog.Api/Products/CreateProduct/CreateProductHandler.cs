@@ -7,7 +7,7 @@ public record CreateProductResult(Guid Id);
 
 public class CreateProductCommandHandler(IDocumentSession session) : ICommandHandler<CreateProductCommand, CreateProductResult>
 {
-    private readonly IDocumentSession _session;
+    private readonly IDocumentSession _session = session;
 
     public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
     {
