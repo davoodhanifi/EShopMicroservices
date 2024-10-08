@@ -1,5 +1,4 @@
-﻿using static Catalog.Api.Products.CreateProduct.GetProductsEndpoint;
-
+﻿
 namespace Catalog.Api.Products.GetProductByCategory;
 
 public record GetProductByCategoryRequest();
@@ -17,7 +16,7 @@ public class GetProductByCategoryEndpoint : CarterModule
             return Results.Ok(response);
         })
         .WithName("GetProductByCategory")
-        .Produces<GetProductsResponse>(StatusCodes.Status200OK)
+        .Produces<GetProductByCategoryResponse>(StatusCodes.Status200OK)
         .WithSummary("Get Product By Category")
         .WithDescription("Get Product By Category");
     }
