@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-namespace Catalog.Api.Products.CreateProduct;
+﻿namespace Catalog.Api.Products.CreateProduct;
 
 public class GetProductsEndpoint : ICarterModule
 {
@@ -9,9 +7,9 @@ public class GetProductsEndpoint : ICarterModule
 
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/products", async (ISender mediator) =>
+        app.MapGet("/products", async (ISender sender) =>
         {
-            var result = await mediator.Send(new GetProductsQuery());
+            var result = await sender.Send(new GetProductsQuery());
             var response = result.Adapt<GetProductsResponse>();
             return Results.Ok(response);
         })
