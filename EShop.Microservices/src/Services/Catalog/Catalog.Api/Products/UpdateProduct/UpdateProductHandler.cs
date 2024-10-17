@@ -5,6 +5,20 @@ public record UpdateProductCommand(Guid Id, string Name, List<string> Categories
 
 public record UpdateProductResult(bool Result);
 
+public class UpdateProductValidator : AbstractValidator<UpdateProductCommand>
+{
+    public UpdateProductValidator()
+    {
+        RuleFor(x => x.Id).NotEmpty().WithMessage("Product Id is required!");
+        RuleFor(x => x.Name).NotEmpty().WithMessage("Name is required!")
+                            .Length(2, 150).WithMessage("Name must have between 2 and 150 characters!");
+        RuleFor(x => x.Categories).NotEmpty().WithMessage("Categories is required!");
+        RuleFor(x => x.Description).NotEmpty().WithMessage("Description is required!");
+        RuleFor(x => x.ImageFile).NotEmpty().WithMessage("ImageFile is required!");
+        RuleFor(x => x.Price).GreaterThan(0).WithMessage("Price must be greater than zero!");
+    }
+}
+
 public class UpdateProductHandler(IDocumentSession session, ILogger<UpdateProductHandler> logger) : ICommandHandler<UpdateProductCommand, UpdateProductResult>
 {
     private readonly IDocumentSession _session = session;

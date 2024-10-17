@@ -9,7 +9,8 @@ public class CreateProductValidator : AbstractValidator<CreateProductCommand>
 {
     public CreateProductValidator()
     {
-        RuleFor(x => x.Name).NotEmpty().WithMessage("Name is required!");
+        RuleFor(x => x.Name).NotEmpty().WithMessage("Name is required!")
+                            .Length(2,150).WithMessage("Name must have between 2 and 150 characters!");
         RuleFor(x => x.Categories).NotEmpty().WithMessage("Categories is required!");
         RuleFor(x => x.Description).NotEmpty().WithMessage("Description is required!");
         RuleFor(x => x.ImageFile).NotEmpty().WithMessage("ImageFile is required!");
