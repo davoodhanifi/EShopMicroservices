@@ -19,15 +19,12 @@ public class UpdateProductValidator : AbstractValidator<UpdateProductCommand>
     }
 }
 
-public class UpdateProductHandler(IDocumentSession session, ILogger<UpdateProductHandler> logger) : ICommandHandler<UpdateProductCommand, UpdateProductResult>
+public class UpdateProductHandler(IDocumentSession session) : ICommandHandler<UpdateProductCommand, UpdateProductResult>
 {
     private readonly IDocumentSession _session = session;
-    private readonly ILogger<UpdateProductHandler> _logger = logger;
 
     public async Task<UpdateProductResult> Handle(UpdateProductCommand command, CancellationToken cancellationToken)
     {
-        _logger.LogInformation($"UpdateProductHandler.Handle called with command: {command}");
-
         var product = await _session.LoadAsync<Product>(command.Id, cancellationToken);
 
         if (product == null)

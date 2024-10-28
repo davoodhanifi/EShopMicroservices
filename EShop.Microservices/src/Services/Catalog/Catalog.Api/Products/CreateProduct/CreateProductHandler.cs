@@ -18,14 +18,12 @@ public class CreateProductValidator : AbstractValidator<CreateProductCommand>
     }
 }
 
-public class CreateProductCommandHandler(IDocumentSession session, ILogger<CreateProductCommandHandler> logger) : ICommandHandler<CreateProductCommand, CreateProductResult>
+public class CreateProductCommandHandler(IDocumentSession session) : ICommandHandler<CreateProductCommand, CreateProductResult>
 {
     private readonly IDocumentSession _session = session;
-    private readonly ILogger<CreateProductCommandHandler> _logger = logger;
 
     public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
     {
-        _logger.LogInformation($"CreateProductCommandHandler.Handle called with command: {command}");
         var product = new Product
         {
             Name = command.Name,
