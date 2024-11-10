@@ -1,4 +1,6 @@
-﻿namespace Basket.Api.Basket.StoreBasket;
+﻿using Basket.Api.Data;
+
+namespace Basket.Api.Basket.StoreBasket;
 
 public record StoreBasketCommand(ShoppingCart Cart) : ICommand<StoreBasketResult>;
 public record StoreBasketResult(string Username);
@@ -12,14 +14,14 @@ public class StoreBasketCommandValidator : AbstractValidator<StoreBasketCommand>
     }
 }
 
-public class StoreBasketHandler : ICommandHandler<StoreBasketCommand, StoreBasketResult>
+public class StoreBasketHandler(IBasketRepository basketRepository) : ICommandHandler<StoreBasketCommand, StoreBasketResult>
 {
+    private readonly IBasketRepository _basketRepository = basketRepository ?? throw new ArgumentNullException(nameof(basketRepository));
+
     public async Task<StoreBasketResult> Handle(StoreBasketCommand command, CancellationToken cancellationToken)
     {
         var cart  = command.Cart;
-        // store
-        // update cache
-
-        return new StoreBasketResult("");
+        var result = await _basketRepository.Store(cart, cancellationToken);
+        return new StoreBasketResult(result.Username);
     }
 }
