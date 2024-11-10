@@ -2,13 +2,13 @@
 
 public class ShoppingCart
 {
-    public string UserName { get; set; } = default!;
+    public string Username { get; set; } = default!;
     public List<ShoppingCartItem> Items { get; set; } = [];
     public decimal TotalPrice => Items.Sum(i => i.Quantity * i.Price);
 
-    public ShoppingCart(string userName)
+    public ShoppingCart(string username)
     {
-        UserName = userName;
+        Username = username;
     }
 
     // Required for mapping
