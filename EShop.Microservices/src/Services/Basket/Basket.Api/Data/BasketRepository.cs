@@ -1,13 +1,16 @@
-﻿namespace Basket.Api.Data;
+﻿using Basket.Api.Exceptions;
+
+namespace Basket.Api.Data;
 
 public class BasketRepository (IDocumentSession session) : IBasketRepository
 {
     private readonly IDocumentSession _session = session ?? throw new ArgumentNullException(nameof(session));
         
-    public async Task<ErrorOr<ShoppingCart>> Get(string username, CancellationToken cancellationToken = default)
+    public async Task<ShoppingCart> Get(string username, CancellationToken cancellationToken = default)
     {
         var basket = await _session.LoadAsync<ShoppingCart>(username, cancellationToken);
-        return basket is null ? Error.NotFound($"{username}") : basket;
+        //return basket is null ? Error.NotFound($"{username}") : basket;
+        return basket is null ? throw new BasketNotFoundException(username) : basket;
     }
 
     public async Task<ShoppingCart> Store(ShoppingCart shoppingCart, CancellationToken cancellationToken = default)

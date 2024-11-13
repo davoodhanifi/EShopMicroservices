@@ -14,12 +14,12 @@ public class GetBasketHandler(IBasketRepository basketRepository) : IQueryHandle
     {
         var basketResult = await _basketRepository.Get(query.Username, cancellationToken);
 
-        if (basketResult.IsError)
+        if (basketResult is null)
         {
             throw new BasketNotFoundException(query.Username);
         }
 
-        var shoppingCart = basketResult.Value;
+        var shoppingCart = basketResult;
         return new GetBasketResult(shoppingCart);
     }
 }
