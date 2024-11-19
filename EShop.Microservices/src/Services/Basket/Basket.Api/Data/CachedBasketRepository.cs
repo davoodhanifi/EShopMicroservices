@@ -14,11 +14,17 @@ public class CachedBasketRepository(IBasketRepository repository, ICacheService 
 
     public async Task<ShoppingCart> Store(ShoppingCart shoppingCart, CancellationToken cancellationToken = default)
     {
-        return await _repository.Store(shoppingCart, cancellationToken);
+        await _repository.Store(shoppingCart, cancellationToken);
+        await _cacheService.AddAsync(shoppingCart.Username, shoppingCart);
+
+        return shoppingCart;
     }
 
     public async Task<bool> Delete(string username, CancellationToken cancellationToken = default)
     {
-        return await _repository.Delete(username, cancellationToken);
+        await _repository.Delete(username, cancellationToken);
+        await _cacheService.RemoveAsync(username);
+
+        return true;
     }
 }

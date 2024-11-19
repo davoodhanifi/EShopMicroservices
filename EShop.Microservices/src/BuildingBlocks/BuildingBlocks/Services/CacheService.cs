@@ -18,21 +18,23 @@ public class CacheService(IDatabase database) : ICacheService
         }
 
         var valueFromDb = await getFromDb();
-        var timeToLive = expirationIntervalInSeconds.HasValue
-                ? TimeSpan.FromSeconds(expirationIntervalInSeconds.Value)
-                : TimeSpan.FromSeconds(ExpirationIntervalInSeconds);
 
-        await AddAsync(key, valueFromDb, timeToLive);
+        await AddAsync(key, valueFromDb, expirationIntervalInSeconds);
         return valueFromDb;
     }
 
-    public async Task<bool> AddAsync<T>(string key, T value, TimeSpan timeToLive)
+    public async Task<bool> AddAsync<T>(string key, T value, int? expirationIntervalInSeconds = null)
     {
         var json = JsonSerializer.Serialize(value);
+        var timeToLive = expirationIntervalInSeconds.HasValue
+                       ? TimeSpan.FromSeconds(expirationIntervalInSeconds.Value)
+                       : TimeSpan.FromSeconds(ExpirationIntervalInSeconds);
 
-        var result = await _database.StringSetAsync(key, json, timeToLive);
-
-        return result;
+        return await _database.StringSetAsync(key, json, timeToLive);
     }
 
+    public async Task<bool> RemoveAsync(string key)
+    {
+        return await _database.KeyDeleteAsync(key);
+    }
 }
