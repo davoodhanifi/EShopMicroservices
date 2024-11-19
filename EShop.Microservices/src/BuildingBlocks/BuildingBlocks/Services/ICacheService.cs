@@ -2,5 +2,6 @@
 
 public interface ICacheService
 {
-    Task<T> GetAsync<T>(string key, Func<Task<T>> getFromSource, CancellationToken cancellationToken);
+    Task<T> GetOrAddAsync<T>(string key, Func<Task<T>> getFromDb, int? expirationIntervalInSeconds = null) where T : class;
+    Task<bool> AddAsync<T>(string key, T value, TimeSpan timeToLive);
 }
