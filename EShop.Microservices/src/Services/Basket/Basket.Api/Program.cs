@@ -1,6 +1,8 @@
 using Basket.Api.Data;
 using BuildingBlocks.Behaviors;
 using BuildingBlocks.Exceptions.Handler;
+using BuildingBlocks.Services;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,10 +27,20 @@ builder.Services.Decorate<IBasketRepository, CachedBasketRepository>();
 
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
-builder.Services.AddStackExchangeRedisCache(options =>
+builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
 {
-    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+    var configuration = builder.Configuration.GetConnectionString("Redis");
+    return ConnectionMultiplexer.Connect(configuration!);
 });
+
+builder.Services.AddSingleton(sp =>
+{
+    var connection = sp.GetRequiredService<IConnectionMultiplexer>();
+    return connection.GetDatabase();
+});
+
+builder.Services.AddSingleton<ICacheService, CacheService>();
+
 
 var app = builder.Build();
 
