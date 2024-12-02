@@ -4,10 +4,10 @@ option csharp_namespace = "Discount.Grpc";
 package discount;
 
 service DiscountProtoService {
-	rpc GetDisount(GetDisountRequest) returns (CouponModel);
-	rpc CreateDisount(CreateDisountRequest) returns (CouponModel);
-	rpc UpdateDisount(UpdateDisountRequest) returns (CouponModel);
-	rpc DeleteDisount(DeleteDiscountRequest) returns (DeleteDiscountResponse);
+	rpc GetDiscount(GetDiscountRequest) returns (CouponModel);
+	rpc CreateDiscount(CreateDiscountRequest) returns (CouponModel);
+	rpc UpdateDiscount(UpdateDiscountRequest) returns (CouponModel);
+	rpc DeleteDiscount(DeleteDiscountRequest) returns (DeleteDiscountResponse);
 }
 
 message CouponModel {
@@ -21,15 +21,15 @@ message DeleteDiscountResponse {
 	bool success = 1;
 }
 
-message GetDisountRequest {
+message GetDiscountRequest {
 	string productName = 1;
 }
 
-message CreateDisountRequest {
+message CreateDiscountRequest {
 	CouponModel coupon = 1;
 }
 
-message UpdateDisountRequest {
+message UpdateDiscountRequest {
 	CouponModel coupon = 1;
 }
 
