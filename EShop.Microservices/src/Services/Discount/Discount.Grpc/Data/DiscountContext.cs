@@ -3,11 +3,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Discount.Grpc.Data;
 
-public class DiscountContext :DbContext
+public class DiscountContext : DbContext
 {
-    public DbSet<CouponModel> Coupons { get; set; } = default!;
+    public DbSet<Coupon> Coupons { get; set; } = default!;
 
-    public DiscountContext(DbContextOptions<DiscountContext> options) : base(options)
+    public DiscountContext(DbContextOptions<DiscountContext> options)
+       : base(options)
     {
     }
 

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Discount.Grpc.Migrations
 {
     [DbContext(typeof(DiscountContext))]
-    [Migration("20241203205301_InitialCreate")]
+    [Migration("20241203210707_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -18,26 +18,6 @@ namespace Discount.Grpc.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
-
-            modelBuilder.Entity("Discount.Grpc.CouponModel", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Amount")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ProductName")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Coupons");
-                });
 
             modelBuilder.Entity("Discount.Grpc.Models.Coupon", b =>
                 {
@@ -58,7 +38,7 @@ namespace Discount.Grpc.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Coupon");
+                    b.ToTable("Coupons");
 
                     b.HasData(
                         new

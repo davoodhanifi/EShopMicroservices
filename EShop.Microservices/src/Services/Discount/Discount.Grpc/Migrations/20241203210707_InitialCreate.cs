@@ -13,7 +13,7 @@ namespace Discount.Grpc.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Coupon",
+                name: "Coupons",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -24,26 +24,11 @@ namespace Discount.Grpc.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Coupon", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Coupons",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    ProductName = table.Column<string>(type: "TEXT", nullable: true),
-                    Description = table.Column<string>(type: "TEXT", nullable: true),
-                    Amount = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
                     table.PrimaryKey("PK_Coupons", x => x.Id);
                 });
 
             migrationBuilder.InsertData(
-                table: "Coupon",
+                table: "Coupons",
                 columns: new[] { "Id", "Amount", "Description", "ProductName" },
                 values: new object[,]
                 {
@@ -55,9 +40,6 @@ namespace Discount.Grpc.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Coupon");
-
             migrationBuilder.DropTable(
                 name: "Coupons");
         }
