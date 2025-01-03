@@ -14,7 +14,7 @@ public class DiscountService (DiscountContext dbContext,
     
     public override async Task<CouponModel> GetDiscount(GetDiscountRequest request, ServerCallContext context)
     {
-        var coupon = await dbContext.Coupons
+        var coupon = await _dbContext.Coupons
                                     .FirstOrDefaultAsync(i => i.ProductName == request.ProductName);
         if (coupon == null)
         {
@@ -26,9 +26,20 @@ public class DiscountService (DiscountContext dbContext,
         return coupon.Adapt<CouponModel>();
     }
 
-    public override Task<CouponModel> CreateDiscount(CreateDiscountRequest request, ServerCallContext context)
+    public override async Task<CouponModel> CreateDiscount(CreateDiscountRequest request, ServerCallContext context)
     {
-        return base.CreateDiscount(request, context);
+        var coupon = request.Coupon.Adapt<Coupon>();
+        if (coupon == null)
+        {
+            throw new RpcException(new Status(StatusCode.InvalidArgument, "Invalid request object."));
+        }
+
+        _dbContext.Coupons.Add(coupon);
+        await _dbContext.SaveChangesAsync();
+
+        _logger.LogInformation($"Discount is successfully created. ProductName : {coupon.ProductName}");
+
+        return coupon.Adapt<CouponModel>();
     }
 
     public override Task<CouponModel> UpdateDiscount(UpdateDiscountRequest request, ServerCallContext context)
