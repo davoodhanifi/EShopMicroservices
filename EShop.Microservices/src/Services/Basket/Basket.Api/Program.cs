@@ -2,11 +2,13 @@ using Basket.Api.Data;
 using BuildingBlocks.Behaviors;
 using BuildingBlocks.Exceptions.Handler;
 using BuildingBlocks.Services;
+using Discount.Grpc;
 using HealthChecks.UI.Client;
 using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Application Services
 var assembly = typeof(Program).Assembly;
 builder.Services.AddMediatR(config =>
 {
@@ -15,9 +17,11 @@ builder.Services.AddMediatR(config =>
     config.AddOpenBehavior(typeof(LoggingBehavior<,>));
 });
 
+// Data Services
 builder.Services.AddCarter();
 var postgresqlConnectionString = builder.Configuration.GetConnectionString("Database")!;
 var redisConnectionString = builder.Configuration.GetConnectionString("Redis")!;
+
 
 builder.Services.AddMarten(options =>
 {
@@ -27,8 +31,6 @@ builder.Services.AddMarten(options =>
 
 builder.Services.AddScoped<IBasketRepository, BasketRepository>();
 builder.Services.Decorate<IBasketRepository, CachedBasketRepository>();
-
-builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
 builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
 {
@@ -42,6 +44,26 @@ builder.Services.AddSingleton(sp =>
 });
 
 builder.Services.AddSingleton<ICacheService, CacheService>();
+
+
+// Grpc Services
+builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(options =>
+{
+    options.Address = new Uri(builder.Configuration["GrpcSettings:DiscountUrl"]!);
+})
+.ConfigurePrimaryHttpMessageHandler(() =>
+{
+    var handler = new HttpClientHandler
+    {
+        ServerCertificateCustomValidationCallback =
+        HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+    };
+
+    return handler;
+});
+
+// Cross-Cutting Services
+builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
 builder.Services.AddHealthChecks()
     .AddNpgSql(postgresqlConnectionString)
