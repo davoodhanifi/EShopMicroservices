@@ -58,8 +58,19 @@ public class DiscountService (DiscountContext dbContext,
         return coupon.Adapt<CouponModel>();
     }
 
-    public override Task<DeleteDiscountResponse> DeleteDiscount(DeleteDiscountRequest request, ServerCallContext context)
+    public override async Task<DeleteDiscountResponse> DeleteDiscount(DeleteDiscountRequest request, ServerCallContext context)
     {
-        return base.DeleteDiscount(request, context);
+        var coupon = await _dbContext.Coupons.FirstOrDefaultAsync(c => c.ProductName == request.ProductName);
+        if (coupon == null)
+        {
+            throw new RpcException(new Status(StatusCode.NotFound, $"Discount with ProductName={request.ProductName} is not found."));
+        }
+
+        _dbContext.Coupons.Remove(coupon);
+        await _dbContext.SaveChangesAsync();
+
+        _logger.LogInformation($"Discount is successfully deleted. ProductName : {coupon.ProductName}");
+
+        return new DeleteDiscountResponse { Success = true };
     }
 }
