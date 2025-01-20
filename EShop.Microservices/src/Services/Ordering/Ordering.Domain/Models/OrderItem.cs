@@ -1,9 +1,9 @@
 ﻿namespace Ordering.Domain.Models;
 
-public class OrderItem(Guid orderId, Guid productId, int quantity, decimal price) : Entity<Guid>
+public class OrderItem(OrderId orderId, ProductId productId, int quantity, decimal price) : Entity<OrderItemId>
 {
-    public Guid OrderId { get; private set; } = orderId;
-    public Guid ProductId { get; private set; } = productId;
+    public OrderId OrderId { get; private set; } = orderId;
+    public ProductId ProductId { get; private set; } = productId;
     public int Quantity { get; private set; } = quantity;
     public decimal Price { get; private set; } = price;
 }
