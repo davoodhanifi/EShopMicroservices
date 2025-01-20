@@ -3,8 +3,6 @@ using HealthChecks.UI.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.AddServiceDefaults();
-
 var assembly = typeof(Program).Assembly;
 builder.Services.AddMediatR(config =>
 {
@@ -34,8 +32,6 @@ builder.Services.AddHealthChecks()
     .AddNpgSql(postgresqlConnectionString);
 
 var app = builder.Build();
-
-app.MapDefaultEndpoints();
 
 app.MapCarter();
 app.UseExceptionHandler(options => { });
