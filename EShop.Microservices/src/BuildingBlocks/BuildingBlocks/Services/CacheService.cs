@@ -14,7 +14,7 @@ public class CacheService(IDatabase database) : ICacheService
         var value = await _database.StringGetAsync(key);
         if (!string.IsNullOrWhiteSpace(value))
         {
-            return JsonSerializer.Deserialize<T>(value)!;
+            return JsonSerializer.Deserialize<T>(value!)!;
         }
 
         var valueFromDb = await getFromDb();
