@@ -16,7 +16,7 @@ app.UseApiServices();
 
 if (app.Environment.IsDevelopment())
 {
-    await app.InitialiseDatabaseAsync();
+    await app.InitializeDatabaseAsync();
 }
 
 app.Run();
