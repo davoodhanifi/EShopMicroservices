@@ -1,4 +1,4 @@
-﻿namespace Ordering.Application.Orders.Commands;
+﻿namespace Ordering.Application.Orders.Commands.CreateOrder;
 
 public class CreateOrderHandler(IApplicationDbContext dbContext) : ICommandHandler<CreateOrderCommand, CreateOrderResult>
 {
@@ -23,14 +23,14 @@ public class CreateOrderHandler(IApplicationDbContext dbContext) : ICommandHandl
                                         orderDto.BillingAddress.Country, orderDto.BillingAddress.State,
                                         orderDto.BillingAddress.ZipCode);
         var paymentMethod = PaymentMethod.Of(orderDto.PaymentMethod.CardName, orderDto.PaymentMethod.CardNumber,
-                                             orderDto.PaymentMethod.Expiration, orderDto.PaymentMethod.Cvv, 
+                                             orderDto.PaymentMethod.Expiration, orderDto.PaymentMethod.Cvv,
                                              orderDto.PaymentMethod.PaymentMethodType);
 
-        var order = Order.Create(OrderId.Of(Guid.NewGuid()), 
-                            CustomerId.Of(orderDto.CustomerId), 
+        var order = Order.Create(OrderId.Of(Guid.NewGuid()),
+                            CustomerId.Of(orderDto.CustomerId),
                             OrderName.Of(orderDto.OrderName),
-                            shippingAddress, 
-                            billingAddress, 
+                            shippingAddress,
+                            billingAddress,
                             paymentMethod);
 
         foreach (var orderItem in orderDto.OrderItems)
